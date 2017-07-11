@@ -67,13 +67,3 @@ function removeWeaponsNotFound()
  
   end)
 end
-
-
-RegisterNetEvent('ft_weapons:ClgiveWeapons')
-AddEventHandler('ft_weapons:ClgiveWeapons', function(weapons)
-
-
-
-end)
-
-
