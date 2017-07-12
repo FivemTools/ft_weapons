@@ -5,33 +5,17 @@ AddEventHandler('ft_weapons:ClgiveWeapons', function(weapons)
   Citizen.CreateThread(function()
   
     local playerPed = GetPlayerPed(-1)
-    for k,v in pairs(weapons) do
-      local model = GetHashKey(v.model)
-      table.insert(clientWeapons, {model = v.model})
-      GiveDelayedWeaponToPed(playerPed, model, 0, 0, true)
+    for _,weapon in pairs(weapons) do
+      local model = GetHashKey(weapon.model)
+      table.insert(clientWeapons, {model = weapon.model})
+      GiveDelayedWeaponToPed(playerPed, model, tonumber(weapon.ammo), 0, true)
       Citizen.Wait(10)
-      SetPedAmmo(playerPed, model, tonumber(v.ammo))
-      Citizen.Wait(10)
-      SetPedWeaponTintIndex(playerPed, model, tonumber(v.tint))
-      Citizen.Wait(10)
-      if v.components_1 ~= nil then
-        GiveWeaponComponentToPed(playerPed, model, GetHashKey(v.components_1))
-      end
-      Citizen.Wait(10)
-      if v.components_2 ~= nil then
-        GiveWeaponComponentToPed(playerPed, model, GetHashKey(v.components_2))
-      end
-      Citizen.Wait(10)
-      if v.components_3 ~= nil then
-        GiveWeaponComponentToPed(playerPed, model, GetHashKey(v.components_3))
-      end
-      Citizen.Wait(10)
-      if v.components_4 ~= nil then
-        GiveWeaponComponentToPed(playerPed, model, GetHashKey(v.components_4))
-      end
-      Citizen.Wait(10)
-      if v.components_5 ~= nil then
-        GiveWeaponComponentToPed(playerPed, model, GetHashKey(v.components_5))
+      SetPedWeaponTintIndex(playerPed, model, tonumber(weapon.tint))
+      for i=1,6 do
+        local components = weapon["components_"..tostring(i)]
+        if components ~= nil then
+          GiveWeaponComponentToPed(playerPed, model, GetHashKey(components))
+        end
       end
     end
     
@@ -67,3 +51,16 @@ function removeWeaponsNotFound()
  
   end)
 end
+
+RegisterNetEvent('ft_weapons:ClAddWeapons')
+AddEventHandler('ft_weapons:ClAddWeapons', function(model, ammo)
+  Citizen.CreateThread(function()
+
+    if ammo >= 0 and ammo <= 1000 then
+      TriggerServerEvent("ft_weapons:SvAddWeapon", model, ammo)
+    else
+      print("ft_weapons: Addweapon() ammo error")
+    end
+  
+  end)
+end)
