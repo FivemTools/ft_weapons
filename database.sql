@@ -1,3 +1,6 @@
+-- @Project: FiveM Tools
+-- @License: GNU General Public License v3.0
+
 CREATE TABLE IF NOT EXISTS `weapons` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `steamId` char(50) NOT NULL,
