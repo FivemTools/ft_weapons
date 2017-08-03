@@ -1,9 +1,6 @@
 -- @Project: FiveM Tools
 -- @License: GNU General Public License v3.0
 
--- Load lib MySQL --
-require "resources/mysql-async/lib/MySQL"
-
 ---------------------TEST----------------------
 
 TriggerEvent("ft_gamemode:SvAddSimpleCommand", "givegun", 2, function (source, args)
